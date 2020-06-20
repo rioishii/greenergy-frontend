@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "greenergy",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authgreenergy1184d8d7",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

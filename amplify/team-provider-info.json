@@ -1,0 +1,26 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-greenergy-dev-10221-authRole",
+            "UnauthRoleArn": "arn:aws:iam::395241561214:role/amplify-greenergy-dev-10221-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::395241561214:role/amplify-greenergy-dev-10221-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-greenergy-dev-10221-deployment",
+            "UnauthRoleName": "amplify-greenergy-dev-10221-unauthRole",
+            "StackName": "amplify-greenergy-dev-10221",
+            "StackId": "arn:aws:cloudformation:us-east-2:395241561214:stack/amplify-greenergy-dev-10221/604887a0-b2cc-11ea-87c5-060a55e3d44e",
+            "AmplifyAppId": "d3ec4o9sf13kkn"
+        },
+        "categories": {
+            "auth": {
+                "greenergy1184d8d7": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d3ec4o9sf13kkn",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}
