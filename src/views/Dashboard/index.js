@@ -3,8 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import { DataStore } from "@aws-amplify/datastore";
 import { FoodScore } from "../../models";
-import { useHistory } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 
 import {
   TotalUploaded,
@@ -22,9 +21,23 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const classes = useStyles();
 
-  let history = useHistory;
-
   const [foodScores, updateFoodScores] = useState([]);
+  const [currUser, setCurUser] = useState(null);
+
+  useEffect(() => {
+    checkAuth();
+    Hub.listen("auth", checkAuth);
+    return () => Hub.remove("auth", checkAuth);
+  }, []);
+
+  const checkAuth = async () => {
+    try {
+      let user = await Auth.currentAuthenticatedUser();
+      setCurUser(user);
+    } catch {
+      setCurUser(null);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -35,14 +48,11 @@ const Dashboard = () => {
   });
 
   async function fetchData() {
-    let user = await Auth.currentAuthenticatedUser();
-    if (user) {
+    if (currUser) {
       const foodScores = await DataStore.query(FoodScore, (c) =>
-        c.userID("eq", user.username)
+        c.userID("eq", currUser.username)
       );
       updateFoodScores(foodScores);
-    } else {
-      history.push("/login")
     }
   }
 

@@ -161,13 +161,13 @@ const Login = () => {
     setCognitoErr("");
     try {
       await Auth.signIn(formState.values.email, formState.values.password);
-      setIsLoading(false)
       history.push("/app/dashboard");
     } catch (error) {
       let err = error.message;
       setCognitoErr(err);
       console.log("error signing up:", error);
     }
+    setIsLoading(false)
   };
 
   const hasError = (field) =>

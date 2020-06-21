@@ -168,7 +168,7 @@ const UploadTable = (props) => {
       <CardHeader
         action={
           <Button color="primary" size="small" variant="contained" startIcon={<AddToPhotosIcon />}>
-            <Link to="/upload" style={{ color: "#fff" }}>
+            <Link to="/app/upload" style={{ color: "#fff" }}>
               New entry
             </Link>
           </Button>
@@ -194,7 +194,6 @@ const UploadTable = (props) => {
           <TableBody>
             {(rowsPerPage > 0
               ? foodScores
-                  .reverse()
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : foodScores
             ).map((row, index) => (

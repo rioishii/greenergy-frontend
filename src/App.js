@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import LandingPage from "./views/Landingpage";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
@@ -24,37 +24,39 @@ validate.validators = {
   ...validators,
 };
 
-const App = () => (
-  <MuiThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <LandingPage />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/app/dashboard">
-          <Main>
-            <Dashboard />
-          </Main>
-        </Route>
-        <Route path="/app/upload">
-          <Main>
-            <Upload />
-          </Main>
-        </Route>
-        <Route path="/app/history">
-          <Main>
-            <History />
-          </Main>
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  </MuiThemeProvider>
-);
+const App = () => {
+  return (
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/app/dashboard">
+            <Main>
+              <Dashboard />
+            </Main>
+          </Route>
+          <Route path="/app/upload">
+            <Main>
+              <Upload />
+            </Main>
+          </Route>
+          <Route path="/app/history">
+            <Main>
+              <History />
+            </Main>
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </MuiThemeProvider>
+  );
+};
 
 export default App;
