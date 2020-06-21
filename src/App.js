@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LandingPage from "./views/Landingpage";
 import Login from "./views/Login";
 import Signup from "./views/Signup";

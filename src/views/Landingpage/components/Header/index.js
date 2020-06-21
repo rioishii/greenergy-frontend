@@ -114,7 +114,7 @@ export default ({
     collapseBreakPointCssMap[collapseBreakpointClass];
 
   const defaultLogoLink = (
-    <LogoLink href="/">
+    <LogoLink to="/">
       <img src={logo} alt="logo" />
       Greenergy
     </LogoLink>
