@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import validate from "validate.js";
 import { makeStyles } from "@material-ui/styles";
@@ -14,6 +14,9 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import loginImg from "../../images/login.png";
 import { Auth } from "aws-amplify";
+import { AuthContext } from "../../App";
+import { DataStore } from "@aws-amplify/datastore";
+import { FoodScore } from "../../models";
 
 const schema = {
   email: {
@@ -111,6 +114,8 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
+  const { dispatch } = useContext(AuthContext);
+
   let history = useHistory();
 
   const [formState, setFormState] = useState({
@@ -120,7 +125,7 @@ const Login = () => {
     errors: {},
   });
   const [cognitoErr, setCognitoErr] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -157,17 +162,27 @@ const Login = () => {
 
   const handleSignIn = async (event) => {
     event.preventDefault();
-    setIsLoading(true)
+    setIsLoading(true);
     setCognitoErr("");
     try {
-      await Auth.signIn(formState.values.email, formState.values.password);
+      const user = await Auth.signIn(
+        formState.values.email,
+        formState.values.password
+      );
+      const foodScores = await DataStore.query(FoodScore, (c) =>
+        c.userID("eq", user.username)
+      );
+      dispatch({
+        type: "LOGIN",
+        payload: { user, foodScores },
+      });
       history.push("/app/dashboard");
     } catch (error) {
       let err = error.message;
       setCognitoErr(err);
       console.log("error signing up:", error);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   const hasError = (field) =>
@@ -246,13 +261,16 @@ const Login = () => {
                 >
                   Sign in now
                 </Button>
-                {isLoading ? <LinearProgress style={{marginBottom: "25px"}}/> : ""}
+                {isLoading ? (
+                  <LinearProgress style={{ marginBottom: "25px" }} />
+                ) : (
+                  ""
+                )}
                 <Typography variant="body1">
                   <NavLink to="/signup" className={classes.NavLink}>
                     Don't have an account? Sign up
                   </NavLink>
                 </Typography>
-
               </form>
             </div>
           </div>

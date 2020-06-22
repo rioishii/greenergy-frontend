@@ -1,10 +1,11 @@
-import React from "react"
-import clsx from "clsx"
-import { makeStyles } from "@material-ui/styles"
-import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core"
-import DirectionsCarIcon from "@material-ui/icons/DirectionsCar"
+import React, { useContext } from "react";
+import { AuthContext } from "../../../../App";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles";
+import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core";
+import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
     backgroundColor: theme.palette.primary.main,
@@ -27,24 +28,26 @@ const useStyles = makeStyles(theme => ({
     height: 32,
     width: 32,
   },
-}))
+}));
 
-const TotalEmission = props => {
-  const { className, foodScores, ...rest } = props
+const TotalEmission = (props) => {
+  const { className, ...rest } = props;
 
-  const classes = useStyles()
+  const { state } = useContext(AuthContext);
 
-  let total = calcTotal()
+  const classes = useStyles();
+
+  let total = calcTotal();
 
   function calcTotal() {
-    if (foodScores.length === 0) {
-      return 0
+    if (state.foodScores.length === 0) {
+      return 0;
     }
-    let sum = foodScores.reduce(function(s, a) {
-      return s + a.carMiles
-    }, 0)
+    let sum = state.foodScores.reduce(function (s, a) {
+      return s + a.carMiles;
+    }, 0);
 
-    return sum.toFixed(3)
+    return sum.toFixed(3);
   }
 
   return (
@@ -72,7 +75,7 @@ const TotalEmission = props => {
         </Grid>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default TotalEmission
+export default TotalEmission;

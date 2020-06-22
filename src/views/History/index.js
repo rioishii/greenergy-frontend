@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles"
 import { Grid } from "@material-ui/core"
 import { DataStore } from "@aws-amplify/datastore"
 import { FoodScore } from "../../models"
-import { UploadChart } from "../Dashboard/components"
+import UploadChart from "./components/UploadChart"
 
 const useStyles = makeStyles(theme => ({
   root: {

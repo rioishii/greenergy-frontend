@@ -1,22 +1,3 @@
-// import React from "react"
-
-// import PropTypes from "prop-types"
-// import { Line } from "react-chartjs-2"
-
-// import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
-// import ArrowRightIcon from "@material-ui/icons/ArrowRight"
-// import palette from "../../../../themes/palette"
-// import { options } from "./chart"
-
-// const UploadChart = props => {
-//   const { className, foodScores, ...rest } = props
-
-// UploadChart.propTypes = {
-//   className: PropTypes.string,
-// }
-
-// export default UploadChart
-
 import React from "react"
 import clsx from "clsx"
 import { makeStyles } from "@material-ui/styles"
@@ -77,4 +58,4 @@ const UploadChart = props => {
   )
 }
 
-export default UploadChart
+export default UploadChart;

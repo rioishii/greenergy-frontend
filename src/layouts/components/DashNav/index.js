@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
@@ -12,6 +12,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import InputIcon from "@material-ui/icons/Input";
 import Logo from "../../../components/Logo";
 import { Auth } from "aws-amplify";
+// import { AuthContext } from "../../../context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
 const DashNav = (props) => {
   const { className, onSidebarOpen, ...rest } = props;
 
+  // const { dispatch } = useContext(AuthContext);
+
   const classes = useStyles();
 
   let history = useHistory();
@@ -39,10 +42,13 @@ const DashNav = (props) => {
 
   const handleSignout = async (e) => {
     e.preventDefault();
-    
+
     try {
       await Auth.signOut();
-      history.push('/login')
+      // dispatch({
+      //   type: "LOGOUT",
+      // });
+      history.push("/login");
     } catch (error) {
       console.log("error signing out: ", error);
     }

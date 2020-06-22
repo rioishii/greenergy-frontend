@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../../../App";
 import PropTypes from "prop-types";
 import { withStyles, makeStyles, useTheme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -122,8 +123,8 @@ const useStyles2 = makeStyles({
 });
 
 const UploadTable = (props) => {
-  const { className, foodScores, ...rest } = props;
-
+  const { className, ...rest } = props;
+  const { state } = useContext(AuthContext);
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -132,7 +133,7 @@ const UploadTable = (props) => {
   const [isLoading, setIsLoading] = React.useState("");
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, foodScores.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, state.foodScores.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -193,9 +194,9 @@ const UploadTable = (props) => {
 
           <TableBody>
             {(rowsPerPage > 0
-              ? foodScores
+              ? state.foodScores
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : foodScores
+              : state.foodScores
             ).map((row, index) => (
               <TableRow key={index}>
                 <TableCell>{row.createdAt}</TableCell>
@@ -224,7 +225,7 @@ const UploadTable = (props) => {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={3}
-                count={foodScores.length}
+                count={state.foodScores.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from "../../../../App"
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
@@ -27,7 +28,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TotalUploaded = props => {
-  const { className, foodScores, ...rest } = props;
+  const { className, ...rest } = props;
+
+  const { state } = useContext(AuthContext);
 
   const classes = useStyles();
 
@@ -50,7 +53,7 @@ const TotalUploaded = props => {
             >
               Pictures Uploaded
             </Typography>
-            <Typography variant="h3">{foodScores.length}</Typography>
+            <Typography variant="h3">{state.foodScores.length}</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

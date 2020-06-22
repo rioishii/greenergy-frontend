@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useContext } from "react";
 import uploadIcon from "../../images/upload.png";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { DataStore } from "@aws-amplify/datastore";
 import { FoodScore } from "../../models";
-import { Auth } from "aws-amplify";
+import { AuthContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -98,6 +98,7 @@ const Dropzone = () => {
   const [carMiles, setCarMiles] = useState("");
   const [prediction, setPrediction] = useState("");
   const [probability, setProbability] = useState("");
+  const { state } = useContext(AuthContext);
   const {
     getRootProps,
     getInputProps,
@@ -125,24 +126,23 @@ const Dropzone = () => {
   };
 
   useEffect(() => {
-    async function CreateFoodScore() {
-      if (score && prediction && carMiles) {
-        const today = getDate();
-        let user = await Auth.currentAuthenticatedUser();
-        await DataStore.save(
-          new FoodScore({
-            userID: user.username,
-            name: prediction,
-            score: score,
-            carMiles: carMiles,
-            createdAt: today,
-          })
-        );
-      }
+    if (score && prediction && carMiles) {
+      CreateFoodScore();
     }
-
-    CreateFoodScore();
   }, [prediction, score, carMiles]);
+
+  async function CreateFoodScore() {
+    const today = getDate();
+    await DataStore.save(
+      new FoodScore({
+        userID: state.user.username,
+        name: prediction,
+        score: score,
+        carMiles: carMiles,
+        createdAt: today,
+      })
+    );
+  }
 
   function round(value, decimals) {
     return Number(Math.round(value + "e" + decimals) + "e-" + decimals);

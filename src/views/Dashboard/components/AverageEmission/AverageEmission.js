@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useContext } from "react"
+import { AuthContext } from "../../../../App"
 import clsx from "clsx"
 import { makeStyles } from "@material-ui/styles"
 import { Card, CardContent, Grid, Typography, Avatar } from "@material-ui/core"
@@ -28,21 +29,23 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AverageEmission = props => {
-  const { className, foodScores, ...rest } = props
+  const { className, ...rest } = props
+
+  const { state } = useContext(AuthContext);
 
   const classes = useStyles()
 
   let average = calcAverage()
 
   function calcAverage() {
-    if (foodScores.length === 0) {
+    if (state.foodScores.length === 0) {
       return 0
     }
-    let sum = foodScores.reduce(function(s, a) {
+    let sum = state.foodScores.reduce(function(s, a) {
       return s + a.score
     }, 0)
 
-    let average = sum / foodScores.length
+    let average = sum / state.foodScores.length
     return average.toFixed(3)
   }
 
