@@ -11,7 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InputIcon from "@material-ui/icons/Input";
 import { Auth } from "aws-amplify";
-// import { AuthContext } from "../../../../../context";
+import { AuthContext } from "../../../../../App"
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -55,7 +55,7 @@ const CustomRouterNavLink = forwardRef((props, ref) => (
 const SidebarNav = (props) => {
   const { pages, className, ...rest } = props;
 
-  // const { dispatch } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
 
   const classes = useStyles();
 
@@ -68,9 +68,9 @@ const SidebarNav = (props) => {
 
     try {
       await Auth.signOut();
-      // dispatch({
-      //   type: "LOGOUT",
-      // });
+      dispatch({
+        type: "LOGOUT",
+      });
       history.push("/login");
     } catch (error) {
       console.log("error signing out: ", error);

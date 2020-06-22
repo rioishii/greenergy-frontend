@@ -1,10 +1,11 @@
-import React from "react"
-import clsx from "clsx"
-import { makeStyles } from "@material-ui/styles"
-import { Card, CardContent } from "@material-ui/core"
-import palette from "../../../../themes/palette"
-import { Line } from "react-chartjs-2"
-import { options } from "./chart"
+import React, { useContext } from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles";
+import { Card, CardContent } from "@material-ui/core";
+import palette from "../../../../themes/palette";
+import { Line } from "react-chartjs-2";
+import { options } from "./chart";
+import { AuthContext } from "../../../../App";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -15,17 +16,19 @@ const useStyles = makeStyles(() => ({
   actions: {
     justifyContent: "flex-end",
   },
-}))
+}));
 
-const UploadChart = props => {
-  const { className, foodScores, ...rest } = props
+const UploadChart = (props) => {
+  const { className, ...rest } = props;
 
-  const classes = useStyles()
+  const { state } = useContext(AuthContext);
 
-  let foodLabels = foodScores.map(item => item.createdAt)
-  let scores = foodScores.map(item => item.score)
-  let foodNames = foodScores.map(item => item.name)
-  let miles = foodScores.map(item => item.carMiles)
+  const classes = useStyles();
+
+  let foodLabels = state.foodScores.map((item) => item.createdAt);
+  let scores = state.foodScores.map((item) => item.score);
+  let foodNames = state.foodScores.map((item) => item.name);
+  let miles = state.foodScores.map((item) => item.carMiles);
 
   const data = {
     labels: foodLabels,
@@ -45,17 +48,17 @@ const UploadChart = props => {
         data: miles,
       },
     ],
-  }
+  };
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
         <div className={classes.chartContainer}>
-          <Line data={data} options={options}/>
+          <Line data={data} options={options} />
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
 export default UploadChart;

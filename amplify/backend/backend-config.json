@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"greenergy1184d8d7": {
+		"greenergy4a96b82c": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []
@@ -16,7 +16,7 @@
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authgreenergy1184d8d7"
+							"userPoolId": "authgreenergy4a96b82c"
 						}
 					}
 				}

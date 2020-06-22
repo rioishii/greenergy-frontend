@@ -12,7 +12,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import InputIcon from "@material-ui/icons/Input";
 import Logo from "../../../components/Logo";
 import { Auth } from "aws-amplify";
-// import { AuthContext } from "../../../context";
+import { AuthContext } from "../../../App"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const DashNav = (props) => {
   const { className, onSidebarOpen, ...rest } = props;
 
-  // const { dispatch } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
 
   const classes = useStyles();
 
@@ -45,9 +45,9 @@ const DashNav = (props) => {
 
     try {
       await Auth.signOut();
-      // dispatch({
-      //   type: "LOGOUT",
-      // });
+      dispatch({
+        type: "LOGOUT",
+      });
       history.push("/login");
     } catch (error) {
       console.log("error signing out: ", error);
