@@ -91,7 +91,7 @@ export default ({
         to="whyus"
         spy={true}
         smooth={true}
-        offset={50}
+        offset={-50}
         duration={500}
       >
         Why us?
@@ -148,7 +148,7 @@ export default ({
           {showNavLinks ? (
             <CloseIcon tw="w-6 h-6" />
           ) : (
-            <MenuIcon tw="w-6 h-6" />
+            <MenuIcon />
           )}
         </NavToggle>
       </MobileNavLinksContainer>
@@ -178,3 +178,4 @@ const collapseBreakPointCssMap = {
     mobileNavLinksContainer: tw`lg:hidden`,
   },
 };
+

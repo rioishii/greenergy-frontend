@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, createContext } from "react";
+import React, { useReducer, createContext } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import LandingPage from "./views/Landingpage";
 import Login from "./views/Login";
@@ -14,8 +14,6 @@ import validate from "validate.js";
 import validators from "./utility/validators";
 import chartjs from "./utility/chartjs";
 import theme from "./themes";
-import { DataStore } from "@aws-amplify/datastore";
-import { FoodScore } from "./models";
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw,
@@ -37,6 +35,7 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
+      console.log("LOGGED IN")
       return {
         ...state,
         isAuthenticated: true,
@@ -44,13 +43,15 @@ const reducer = (state, action) => {
         foodScores: action.payload.foodScores,
       };
     case "LOGOUT":
+      console.log("LOGGED OUT")
       return {
         ...state,
         isAuthenticated: false,
         user: null,
         foodScores: null,
       };
-    case "FETCH":
+    case "UPDATE":
+      console.log("UPDATED")
       return {
         ...state,
         foodScores: action.payload.foodScores,
@@ -62,26 +63,6 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    fetchData();
-    const subscription = DataStore.observe(FoodScore).subscribe(() =>
-      fetchData()
-    );
-    return () => subscription.unsubscribe;
-  });
-
-  async function fetchData() {
-    if (state.isAuthenticated && state.user) {
-      const foodScores = await DataStore.query(FoodScore, (c) =>
-        c.userID("eq", state.user.username)
-      );
-      dispatch({
-        type: "FETCH",
-        payload: { foodScores },
-      });
-    }
-  }
 
   return (
     <AuthContext.Provider

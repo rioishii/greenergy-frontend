@@ -98,7 +98,7 @@ const Dropzone = () => {
   const [carMiles, setCarMiles] = useState("");
   const [prediction, setPrediction] = useState("");
   const [probability, setProbability] = useState("");
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const {
     getRootProps,
     getInputProps,
@@ -133,15 +133,26 @@ const Dropzone = () => {
 
   async function CreateFoodScore() {
     const today = getDate();
-    await DataStore.save(
-      new FoodScore({
-        userID: state.user.username,
-        name: prediction,
-        score: score,
-        carMiles: carMiles,
-        createdAt: today,
-      })
-    );
+    if (state.isAuthenticated && state.user) {
+      await DataStore.save(
+        new FoodScore({
+          userID: state.user.username,
+          name: prediction,
+          score: score,
+          carMiles: carMiles,
+          createdAt: today,
+        })
+      );
+
+      const foodScores = await DataStore.query(FoodScore, (c) =>
+        c.userID("eq", state.user.username)
+      );
+
+      dispatch({
+        type: "UPDATE",
+        payload: { foodScores },
+      });
+    }
   }
 
   function round(value, decimals) {

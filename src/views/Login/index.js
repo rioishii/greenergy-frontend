@@ -172,6 +172,8 @@ const Login = () => {
       const foodScores = await DataStore.query(FoodScore, (c) =>
         c.userID("eq", user.username)
       );
+      console.log(user)
+      console.log(foodScores)
       dispatch({
         type: "LOGIN",
         payload: { user, foodScores },
